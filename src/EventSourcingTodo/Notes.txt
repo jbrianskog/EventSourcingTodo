@@ -1,0 +1,30 @@
+A todo list app with an event sourced CQRS back-end.
+
+Make and edit a todo list. Mark items as completed. Real-time updates across devices.
+
+Separate read and write models. Write model takes commands, validates them, and publishes events that represent state changes.
+Events are persisted as an event stream. Current state is derived by applying the event stream. Read model (for web app)
+is denormalized such that a given page load requires only a single record from the DB.
+
+Microsoft Patterns and Practices CQRS Journey https://msdn.microsoft.com/en-us/library/jj554200.aspx
+Think about possibilities:
+David Nolen on persistent immutable data structures https://www.youtube.com/watch?v=J-bC20aAat8
+Typescript
+Aurelia for client-side JS framework http://aurelia.io/
+EventStore for event store https://geteventstore.com/
+
+Phases:
+1. Single global todo list
+2. Add multiple users. Each user with one list
+3. Maybe multiple lists per user.
+
+Consider implementing CRUD style app for contrast.
+
+Commands that return values or not? Try it with no returns. See what happens.
+
+Model entities and Aggregates. Aggregates are composed of entities, so model entities first and then decide which should
+be modeled as aggregates. (or what aggregate boundaries should be)
+
+UX: Make the completed items appears as an immutable list. i.e. a log of the order and time at which things were completed.
+Maybe the completed list will be above the in-progress items. When you open the todo list you will be advanced to the in-progress items but
+it will be clear that you can scroll up to the completed items. When you mark an item completed it will animate to the bottom of the completed items list.
