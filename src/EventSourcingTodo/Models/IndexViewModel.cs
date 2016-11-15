@@ -10,5 +10,6 @@ namespace EventSourcingTodo.Models
     {
         public AddTodoPostModel PostModel { get; set; }
         public IEnumerable<Todo> TodoList { get; set; }
+        public IEnumerable<Event> Events { get; set; }
     }
 }

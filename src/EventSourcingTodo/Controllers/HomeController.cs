@@ -15,7 +15,11 @@ namespace EventSourcingTodo.Controllers
         public IActionResult Index()
         {
             var todoList = TodoListRepository.Get();
-            var viewModel = new IndexViewModel() { TodoList = todoList.Todos };
+            var viewModel = new IndexViewModel()
+            {
+                TodoList = todoList.Todos,
+                Events = TodoListRepository.Events
+            };
             return View(viewModel);
         }
 
@@ -29,7 +33,12 @@ namespace EventSourcingTodo.Controllers
                 return RedirectToAction(nameof(Index));
             }
             var todoList = TodoListRepository.Get();
-            var viewModel = new IndexViewModel() { PostModel = postModel, TodoList = todoList.Todos };
+            var viewModel = new IndexViewModel()
+            {
+                PostModel = postModel,
+                TodoList = todoList.Todos,
+                Events = TodoListRepository.Events
+            };
             return View(viewModel);
         }
 
