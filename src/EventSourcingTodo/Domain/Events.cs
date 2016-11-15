@@ -52,11 +52,11 @@ namespace EventSourcingTodo.Domain
     public class TodoPositionChanged : Event
     {
         public readonly Guid TodoId;
-        public readonly int Position;
-        public TodoPositionChanged(Guid todoId, int position)
+        public readonly int Offset;
+        public TodoPositionChanged(Guid todoId, int offset)
         {
             TodoId = todoId;
-            Position = position;
+            Offset = offset;
         }
     }
 

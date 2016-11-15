@@ -37,7 +37,7 @@ namespace EventSourcingTodo.Domain
         // I want to treat this as an exercise with the assumption that the list is
         // needed to e.g. perform command validation.
         private List<Todo> todos = new List<Todo>();
-        public List<Todo> Todos { get { return todos; } }
+        public IEnumerable<Todo> Todos { get { return todos; } }
 
         public void Add(Guid todoId, string description)
         {
@@ -110,12 +110,23 @@ namespace EventSourcingTodo.Domain
 
         private void Apply(TodoPositionChanged e)
         {
-            var todo = todos.FirstOrDefault(x => x.Id == e.TodoId);
-            if (todo != null)
+            var from = todos.FindIndex(x => x.Id == e.TodoId);
+            if (from == -1)
             {
-                todos.Remove(todo);
-                todos.Insert(e.Position, todo);
+                return;
             }
+            var to = from + e.Offset;
+            if (to < 0)
+            {
+                to = 0;
+            }
+            else if (to > todos.Count - 1)
+            {
+                to = todos.Count - 1;
+            }
+            var tmp = todos[from];
+            todos.RemoveAt(from);
+            todos.Insert(to, tmp);
         }
 
         private void Apply(TodoDescriptionChanged e)

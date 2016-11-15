@@ -38,7 +38,7 @@ namespace EventSourcingTodo.Domain
         public void Handle(ChangeTodoPosition c)
         {
             var todoList = TodoListRepository.Get();
-            todoList.ChangePosition(c.TodoId, c.Position);
+            todoList.ChangePosition(c.TodoId, c.Offset);
             TodoListRepository.PostChanges(todoList);
         }
 
