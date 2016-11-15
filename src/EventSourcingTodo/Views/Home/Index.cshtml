@@ -4,7 +4,7 @@
 }
 <div class="row">
     <div class="col-sm-8">
-        <form asp-controller="Home" asp-action="Index" method="post" role="form">
+        <form asp-controller="Home" asp-action="AddTodo" method="post" role="form">
             <div class="form-group">
                 <label asp-for="PostModel.Description" class="sr-only"></label>
                 <div class="input-group">
@@ -19,12 +19,25 @@
             </div>
         </form>
         <br />
-        <ul class="list-group">
+        <div class="list-group">
             @foreach (var todo in Model.TodoList)
             {
-                <li class="list-group-item">@todo.Description</li>
+                @if (todo.IsCompleted)
+                {
+                    <form asp-controller="Home" asp-action="UncompleteTodo" method="post">
+                        <input name="TodoId" type="hidden" value="@todo.Id" />
+                        <button type="submit" class="list-group-item list-group-item-success" aria-label="Mark to-do incomplete">@todo.Description</button>
+                    </form>
+                }
+                else
+                {
+                    <form asp-controller="Home" asp-action="CompleteTodo" method="post">
+                        <input name="TodoId" type="hidden" value="@todo.Id" />
+                        <button type="submit" class="list-group-item" aria-label="Mark to-do complete">@todo.Description</button>
+                    </form>
+                }
             }
-        </ul>
+        </div>
     </div>
     <div class="col-sm-4">
         <h3>Events</h3>

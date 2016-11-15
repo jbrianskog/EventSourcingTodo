@@ -25,7 +25,7 @@ namespace EventSourcingTodo.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Index(AddTodoPostModel postModel)
+        public IActionResult AddTodo(AddTodoPostModel postModel)
         {
             if (ModelState.IsValid)
             {
@@ -39,7 +39,29 @@ namespace EventSourcingTodo.Controllers
                 TodoList = todoList.Todos,
                 Events = TodoListRepository.Events
             };
-            return View(viewModel);
+            return View("Index", viewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult CompleteTodo(CompleteTodoPostModel postModel)
+        {
+            if (ModelState.IsValid)
+            {
+                cmdHandler.Handle(new CompleteTodo(postModel.TodoId));
+            }
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult UncompleteTodo(UncompleteTodoPostModel postModel)
+        {
+            if (ModelState.IsValid)
+            {
+                cmdHandler.Handle(new UncompleteTodo(postModel.TodoId));
+            }
+            return RedirectToAction(nameof(Index));
         }
 
         public IActionResult About()
