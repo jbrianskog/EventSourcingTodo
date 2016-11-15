@@ -6,16 +6,16 @@
     <div class="col-sm-8">
         <form asp-controller="Home" asp-action="AddTodo" method="post" role="form">
             <div class="form-group">
-                <label asp-for="PostModel.Description" class="sr-only"></label>
+                <label asp-for="AddTodoPostModel.Description" class="sr-only"></label>
                 <div class="input-group">
-                    <input asp-for="PostModel.Description" class="form-control" placeholder="What do you need to do?" />
+                    <input asp-for="AddTodoPostModel.Description" class="form-control" placeholder="What do you need to do?" />
                     <span class="input-group-btn">
                         <button type="submit" class="btn btn-success" aria-label="Add To-do">
                             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                         </button>
                     </span>
                 </div>
-                <span asp-validation-for="PostModel.Description"></span>
+                <span asp-validation-for="AddTodoPostModel.Description"></span>
             </div>
         </form>
         <br />

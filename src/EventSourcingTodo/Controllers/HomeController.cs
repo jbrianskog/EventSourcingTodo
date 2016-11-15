@@ -25,21 +25,31 @@ namespace EventSourcingTodo.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult AddTodo(AddTodoPostModel postModel)
+        public IActionResult AddTodo(AddTodoPostModel addTodoPostModel)
         {
             if (ModelState.IsValid)
             {
-                cmdHandler.Handle(new AddTodo(Guid.NewGuid(), postModel.Description));
+                cmdHandler.Handle(new AddTodo(Guid.NewGuid(), addTodoPostModel.Description));
                 return RedirectToAction(nameof(Index));
             }
-            var todoList = TodoListRepository.Get();
             var viewModel = new IndexViewModel()
             {
-                PostModel = postModel,
-                TodoList = todoList.Todos,
+                AddTodoPostModel = addTodoPostModel,
+                TodoList = TodoListRepository.Get().Todos,
                 Events = TodoListRepository.Events
             };
             return View("Index", viewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult RemoveTodo(RemoveTodoPostModel postModel)
+        {
+            if (ModelState.IsValid)
+            {
+                cmdHandler.Handle(new RemoveTodo(postModel.TodoId));
+            }
+            return RedirectToAction(nameof(Index));
         }
 
         [HttpPost]
@@ -62,6 +72,35 @@ namespace EventSourcingTodo.Controllers
                 cmdHandler.Handle(new UncompleteTodo(postModel.TodoId));
             }
             return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult ChangeTodoPosition(ChangeTodoPositionPostModel postModel)
+        {
+            if (ModelState.IsValid)
+            {
+                cmdHandler.Handle(new ChangeTodoPosition(postModel.TodoId, postModel.Offset));
+            }
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult ChangeTodoDescription(ChangeTodoDescriptionPostModel postModel)
+        {
+            if (ModelState.IsValid)
+            {
+                cmdHandler.Handle(new ChangeTodoDescription(postModel.TodoId, postModel.Description));
+                return RedirectToAction(nameof(Index));
+            }
+            var viewModel = new IndexViewModel()
+            {
+                ChangeTodoDescriptionPostModel = postModel,
+                TodoList = TodoListRepository.Get().Todos,
+                Events = TodoListRepository.Events
+            };
+            return View("Index", viewModel);
         }
 
         public IActionResult About()
