@@ -8,7 +8,7 @@ namespace EventSourcingTodo.Models
 {
     public class AddTodoPostModel
     {
-        [Required]
+        [Required(ErrorMessage = "You need to name your to-do")]
         public string Description { get; set; }
     }
 }
