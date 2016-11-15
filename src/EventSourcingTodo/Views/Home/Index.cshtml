@@ -26,7 +26,10 @@
                 {
                     <form asp-controller="Home" asp-action="UncompleteTodo" method="post">
                         <input name="TodoId" type="hidden" value="@todo.Id" />
-                        <button type="submit" class="list-group-item list-group-item-success" aria-label="Mark to-do incomplete">@todo.Description</button>
+                        <button type="submit" class="list-group-item list-group-item-success" aria-label="Mark to-do incomplete">
+                            @todo.Description<br />
+                            <small>Completed on @todo.CompletionTime.ToString("r")</small>
+                        </button>
                     </form>
                 }
                 else

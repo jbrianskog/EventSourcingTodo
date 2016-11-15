@@ -49,9 +49,9 @@ namespace EventSourcingTodo.Domain
             ApplyAndStageNewEvent(new TodoRemoved(todoId));
         }
         
-        public void Complete(Guid todoId)
+        public void Complete(Guid todoId, DateTimeOffset completionTime)
         {
-            ApplyAndStageNewEvent(new TodoCompleted(todoId));
+            ApplyAndStageNewEvent(new TodoCompleted(todoId, completionTime));
         }
 
         public void Uncomplete(Guid todoId)
@@ -95,6 +95,7 @@ namespace EventSourcingTodo.Domain
             if (todo != null)
             {
                 todo.IsCompleted = true;
+                todo.CompletionTime = e.CompletionTime;
             }
         }
 
@@ -132,5 +133,6 @@ namespace EventSourcingTodo.Domain
         public Guid Id { get; set; }
         public string Description { get; set; }
         public bool IsCompleted { get; set; }
+        public DateTimeOffset CompletionTime { get; set; }
     }
 }

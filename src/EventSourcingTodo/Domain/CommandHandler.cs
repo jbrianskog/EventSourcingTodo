@@ -24,7 +24,7 @@ namespace EventSourcingTodo.Domain
         public void Handle(CompleteTodo c)
         {
             var todoList = TodoListRepository.Get();
-            todoList.Complete(c.TodoId);
+            todoList.Complete(c.TodoId, c.CompletionTime);
             TodoListRepository.PostChanges(todoList);
         }
 

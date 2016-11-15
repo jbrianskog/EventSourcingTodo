@@ -28,9 +28,11 @@ namespace EventSourcingTodo.Domain
     public class CompleteTodo
     {
         public readonly Guid TodoId;
-        public CompleteTodo(Guid todoId)
+        public readonly DateTimeOffset CompletionTime;
+        public CompleteTodo(Guid todoId, DateTimeOffset completionTime)
         {
             TodoId = todoId;
+            CompletionTime = completionTime;
         }
     }
 

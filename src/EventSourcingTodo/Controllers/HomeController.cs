@@ -48,7 +48,7 @@ namespace EventSourcingTodo.Controllers
         {
             if (ModelState.IsValid)
             {
-                cmdHandler.Handle(new CompleteTodo(postModel.TodoId));
+                cmdHandler.Handle(new CompleteTodo(postModel.TodoId, DateTimeOffset.UtcNow));
             }
             return RedirectToAction(nameof(Index));
         }
