@@ -11,16 +11,17 @@ namespace EventSourcingTodo.Domain
         {
             foreach (var e in history)
             {
-                (this as dynamic).Apply((e as dynamic));
+                Apply(e);
             }
         }
 
         private readonly List<Event> _changes = new List<Event>();
         public IEnumerable<Event> UncommittedChanges { get { return _changes; } }
-        
+
+        protected abstract void Apply(Event e);
         protected void ApplyAndStageNewEvent(Event e)
         {
-            (this as dynamic).Apply((e as dynamic));
+            Apply(e);
             _changes.Add(e);
         }
     }
@@ -68,7 +69,12 @@ namespace EventSourcingTodo.Domain
             ApplyAndStageNewEvent(new TodoDescriptionChanged(todoId, description));
         }
 
-        public void Apply(TodoAdded e)
+        protected override void Apply(Event e)
+        {
+            Apply(e as dynamic);
+        }
+
+        private void Apply(TodoAdded e)
         {
             todos.Add(new Todo()
             {
