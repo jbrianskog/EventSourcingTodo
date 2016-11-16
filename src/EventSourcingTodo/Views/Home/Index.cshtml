@@ -43,26 +43,6 @@
         </div>
     </div>
     <div class="col-sm-4">
-        <h3>Events</h3>
-        @if (!Model.Events.Any())
-        {
-            <p><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> Add some to-dos to see events</p>
-        }
-        <ul class="list-unstyled">
-            @foreach (var e in Model.Events)
-            {
-                <li>
-                    @e.GetType().Name
-                    @{ 
-                        var sb = new System.Text.StringBuilder(Newtonsoft.Json.JsonConvert.SerializeObject(e));
-                        sb.Remove(sb.Length - 1, 1);
-                        sb.Remove(0, 1);
-                        sb.Replace("\":\"", "\": \"");
-                        sb.Replace("\",\"", "\"\r\n\"");
-                    }
-                    <pre><small>@sb.ToString()</small></pre>
-                </li>
-            }
-        </ul>
+        @Html.Partial("_EventsPartial", Model.EventsPartialViewModel)
     </div>
 </div>

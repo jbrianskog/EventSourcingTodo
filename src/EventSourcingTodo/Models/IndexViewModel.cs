@@ -11,6 +11,6 @@ namespace EventSourcingTodo.Models
         public AddTodoPostModel AddTodoPostModel { get; set; }
         public ChangeTodoDescriptionPostModel ChangeTodoDescriptionPostModel { get; set; }
         public IEnumerable<Todo> TodoList { get; set; }
-        public IEnumerable<Event> Events { get; set; }
+        public EventsPartialViewModel EventsPartialViewModel { get; set; }
     }
 }
