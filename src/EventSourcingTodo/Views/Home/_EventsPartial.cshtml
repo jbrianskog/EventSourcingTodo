@@ -4,19 +4,14 @@
 {
     <p><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> Add some to-dos to see events</p>
 }
-<ul class="list-unstyled">
-    @foreach (var e in Model.Events)
+else
+{
+    <pre><small>@foreach (var e in Model.Events)
     {
-        <li>
-            @e.GetType().Name
-            @{
-                var sb = new System.Text.StringBuilder(Newtonsoft.Json.JsonConvert.SerializeObject(e));
-                sb.Remove(sb.Length - 1, 1);
-                sb.Remove(0, 1);
-                sb.Replace("\":\"", "\": \"");
-                sb.Replace("\",\"", "\"\r\n\"");
-            }
-            <pre><small>@sb.ToString()</small></pre>
-        </li>
-    }
-</ul>
+        var sb = new System.Text.StringBuilder(Newtonsoft.Json.JsonConvert.SerializeObject(e, Newtonsoft.Json.Formatting.Indented));
+        sb.Remove(sb.Length - 1, 1);
+        sb.Remove(0, 1);
+        sb.Insert(0, e.GetType().Name);
+        @sb.ToString()
+    }</small></pre>
+}
