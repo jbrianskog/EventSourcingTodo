@@ -32,10 +32,7 @@ namespace EventSourcingTodo.Domain
         public TodoList(IEnumerable<Event> history) : base(history)
         {
         }
-
-        // Currently, nothing reads this, so the Apply()s that mutate it are pointless, but
-        // I want to treat this as an exercise with the assumption that the list is
-        // needed to e.g. perform command validation.
+        
         private List<Todo> todos = new List<Todo>();
         public IEnumerable<Todo> Todos { get { return todos; } }
 
