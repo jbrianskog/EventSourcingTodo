@@ -4,7 +4,7 @@
             {
         @if (todo.IsCompleted)
                 {
-            <form asp-controller="Home" asp-action="UncompleteTodo" method="post">
+            <form asp-controller="Home" asp-action="UncompleteTodo" method="post" class="uncompleteTodoForm">
                 <input name="TodoId" type="hidden" value="@todo.Id" />
                 <button type="submit" class="list-group-item list-group-item-success" aria-label="Mark to-do incomplete">
                     @todo.Description<br />
@@ -14,7 +14,7 @@
         }
         else
         {
-            <form asp-controller="Home" asp-action="CompleteTodo" method="post">
+            <form asp-controller="Home" asp-action="CompleteTodo" method="post" class="completeTodoForm">
                 <input name="TodoId" type="hidden" value="@todo.Id" />
                 <button type="submit" class="list-group-item" aria-label="Mark to-do complete">@todo.Description</button>
             </form>

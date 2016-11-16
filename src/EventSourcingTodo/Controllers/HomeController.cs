@@ -29,15 +29,13 @@ namespace EventSourcingTodo.Controllers
             if (ModelState.IsValid)
             {
                 cmdHandler.Handle(new AddTodo(Guid.NewGuid(), addTodoPostModel.Description));
-                return RedirectToAction(nameof(Index));
             }
-            var viewModel = new IndexViewModel()
-            {
-                AddTodoPostModel = addTodoPostModel,
-                TodoListPartialViewModel = new TodoListPartialViewModel() { TodoList = TodoListRepository.Get().Todos },
-                EventsPartialViewModel = new EventsPartialViewModel() { Events = TodoListRepository.Events }
-            };
-            return View("Index", viewModel);
+            return PartialView("_TodoListPartial", new TodoListPartialViewModel() { TodoList = TodoListRepository.Get().Todos });
+        }
+
+        public IActionResult Events()
+        {
+            return PartialView("_EventsPartial", new EventsPartialViewModel() { Events = TodoListRepository.Events });
         }
 
         [HttpPost]
@@ -59,7 +57,7 @@ namespace EventSourcingTodo.Controllers
             {
                 cmdHandler.Handle(new CompleteTodo(postModel.TodoId, DateTimeOffset.UtcNow));
             }
-            return RedirectToAction(nameof(Index));
+            return PartialView("_TodoListPartial", new TodoListPartialViewModel() { TodoList = TodoListRepository.Get().Todos });
         }
 
         [HttpPost]
@@ -70,7 +68,7 @@ namespace EventSourcingTodo.Controllers
             {
                 cmdHandler.Handle(new UncompleteTodo(postModel.TodoId));
             }
-            return RedirectToAction(nameof(Index));
+            return PartialView("_TodoListPartial", new TodoListPartialViewModel() { TodoList = TodoListRepository.Get().Todos });
         }
 
         [HttpPost]
