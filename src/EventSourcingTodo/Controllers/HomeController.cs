@@ -14,10 +14,9 @@ namespace EventSourcingTodo.Controllers
 
         public IActionResult Index()
         {
-            var todoList = TodoListRepository.Get();
             var viewModel = new IndexViewModel()
             {
-                TodoList = todoList.Todos,
+                TodoListPartialViewModel = new TodoListPartialViewModel() { TodoList = TodoListRepository.Get().Todos },
                 EventsPartialViewModel = new EventsPartialViewModel() { Events = TodoListRepository.Events }
             };
             return View(viewModel);
@@ -35,7 +34,7 @@ namespace EventSourcingTodo.Controllers
             var viewModel = new IndexViewModel()
             {
                 AddTodoPostModel = addTodoPostModel,
-                TodoList = TodoListRepository.Get().Todos,
+                TodoListPartialViewModel = new TodoListPartialViewModel() { TodoList = TodoListRepository.Get().Todos },
                 EventsPartialViewModel = new EventsPartialViewModel() { Events = TodoListRepository.Events }
             };
             return View("Index", viewModel);
@@ -97,7 +96,7 @@ namespace EventSourcingTodo.Controllers
             var viewModel = new IndexViewModel()
             {
                 ChangeTodoDescriptionPostModel = postModel,
-                TodoList = TodoListRepository.Get().Todos,
+                TodoListPartialViewModel = new TodoListPartialViewModel() { TodoList = TodoListRepository.Get().Todos },
                 EventsPartialViewModel = new EventsPartialViewModel() { Events = TodoListRepository.Events }
             };
             return View("Index", viewModel);

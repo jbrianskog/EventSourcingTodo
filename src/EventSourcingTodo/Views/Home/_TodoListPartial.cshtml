@@ -1,0 +1,23 @@
+﻿@model EventSourcingTodo.Models.TodoListPartialViewModel
+<div class="list-group">
+    @foreach (var todo in Model.TodoList)
+            {
+        @if (todo.IsCompleted)
+                {
+            <form asp-controller="Home" asp-action="UncompleteTodo" method="post">
+                <input name="TodoId" type="hidden" value="@todo.Id" />
+                <button type="submit" class="list-group-item list-group-item-success" aria-label="Mark to-do incomplete">
+                    @todo.Description<br />
+                    <small>Completed on @todo.CompletionTime.ToString("r")</small>
+                </button>
+            </form>
+        }
+        else
+        {
+            <form asp-controller="Home" asp-action="CompleteTodo" method="post">
+                <input name="TodoId" type="hidden" value="@todo.Id" />
+                <button type="submit" class="list-group-item" aria-label="Mark to-do complete">@todo.Description</button>
+            </form>
+        }
+    }
+</div>
