@@ -121,6 +121,10 @@ namespace EventSourcingTodo.Domain
             {
                 to = todos.Count - 1;
             }
+            if (from == to)
+            {
+                return;
+            }
             var tmp = todos[from];
             todos.RemoveAt(from);
             todos.Insert(to, tmp);
