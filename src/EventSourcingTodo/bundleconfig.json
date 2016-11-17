@@ -20,5 +20,18 @@
     },
     // Optinally generate .map file
     "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/js/jquery.validate.config.min.js",
+    "inputFiles": [
+      "wwwroot/js/jquery.validate.config.js"
+    ],
+    // Optionally specify minification options
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    // Optinally generate .map file
+    "sourceMap": false
   }
 ]

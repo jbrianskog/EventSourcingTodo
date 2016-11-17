@@ -1,57 +1,10 @@
-﻿@model EventSourcingTodo.Models.IndexViewModel
+﻿@model IndexViewModel
 @{
     ViewData["Title"] = "Home Page";
 }
-@section scripts{
-    <script>
-        function refreshEvents() {
-            $.get("/Home/Events")
-                .done(function (responseData) {
-                    $("#eventsAjaxTarget").html(responseData);
-                });
-        }
-
-        // Use this when calling $.submit(todoListTargetingFormsJquerySubmitHandler) (i.e. vanilla jquery ajax form submits)
-        function todoListTargetingFormsJquerySubmitHandler(event) {
-            event.preventDefault();
-            todoListTargetingFormsJqueryValidateSubmitHandler(this);
-        }
-
-        // Use this when overiding $("form").data("validator").settings.submitHandler (i.e. jquery.validate ajax form submits)
-        function todoListTargetingFormsJqueryValidateSubmitHandler(form) {
-            var $form = $(form),
-                url = $form.attr("action"),
-                requestData = $form.serialize();
-
-            $.post(url, requestData)
-                .done(function (responseData) {
-                    refreshEvents();
-                    $("#todoListAjaxTarget").html(responseData);
-                    attachTodoListFormsEventHandlers();
-                    // if jquery.validate.unobtrusive is enabled for the ".uncompleteTodoForm, .completeTodoForm" forms,
-                    // uncomment these lines, and comment the one above.
-                    //$.validator.unobtrusive.parse("#todoListAjaxTarget");
-                    //attachTodoListTargetingFormsEventHandlers(".uncompleteTodoForm, .completeTodoForm");
-                });
-        }
-
-        function attachTodoListFormsEventHandlers() {
-            $(".uncompleteTodoForm, .completeTodoForm").submit(todoListTargetingFormsJquerySubmitHandler);
-        }
-
-        function attachTodoListTargetingFormsJQueryValidateEventHandlers(selector) {
-            $(selector).data("validator").settings.submitHandler = todoListTargetingFormsJqueryValidateSubmitHandler;
-        }
-
-        $(function() {
-            attachTodoListTargetingFormsJQueryValidateEventHandlers("#addTodoForm");
-            attachTodoListFormsEventHandlers();
-        });
-    </script>
-}
 <div class="row">
     <div class="col-sm-8">
-        <form asp-controller="Home" asp-action="AddTodo" method="post" role="form" id="addTodoForm">
+        <form asp-controller="Home" asp-action="AddTodo" method="post" role="form" id="addTodoForm" data-estd-AjaxJQValSubmitOnDone="todoListReplacingAjaxSubmitOnDone">
             <div class="form-group">
                 <label asp-for="AddTodoPostModel.Description" class="sr-only"></label>
                 <div class="input-group">
@@ -67,12 +20,12 @@
         </form>
         <br />
         <div id="todoListAjaxTarget">
-            @Html.Partial("_TodoListPartial", Model.TodoListPartialViewModel)
+            @{Html.RenderPartial("_TodoListPartial", Model.TodoListPartialViewModel);}
         </div>
     </div>
     <div class="col-sm-4">
         <div id="eventsAjaxTarget">
-            @Html.Partial("_EventsPartial", Model.EventsPartialViewModel)
+            @{Html.RenderPartial("_EventsPartial", Model.EventsPartialViewModel);}
         </div>
     </div>
 </div>

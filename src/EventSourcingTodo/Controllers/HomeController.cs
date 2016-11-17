@@ -22,6 +22,11 @@ namespace EventSourcingTodo.Controllers
             return View(viewModel);
         }
 
+        public IActionResult Events()
+        {
+            return PartialView("_EventsPartial", new EventsPartialViewModel() { Events = TodoListRepository.Events });
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult AddTodo(AddTodoPostModel addTodoPostModel)
@@ -32,12 +37,7 @@ namespace EventSourcingTodo.Controllers
             }
             return PartialView("_TodoListPartial", new TodoListPartialViewModel() { TodoList = TodoListRepository.Get().Todos });
         }
-
-        public IActionResult Events()
-        {
-            return PartialView("_EventsPartial", new EventsPartialViewModel() { Events = TodoListRepository.Events });
-        }
-
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult RemoveTodo(RemoveTodoPostModel postModel)
@@ -46,7 +46,7 @@ namespace EventSourcingTodo.Controllers
             {
                 cmdHandler.Handle(new RemoveTodo(postModel.TodoId));
             }
-            return RedirectToAction(nameof(Index));
+            return PartialView("_TodoListPartial", new TodoListPartialViewModel() { TodoList = TodoListRepository.Get().Todos });
         }
 
         [HttpPost]
@@ -79,7 +79,7 @@ namespace EventSourcingTodo.Controllers
             {
                 cmdHandler.Handle(new ChangeTodoPosition(postModel.TodoId, postModel.Offset));
             }
-            return RedirectToAction(nameof(Index));
+            return PartialView("_TodoListPartial", new TodoListPartialViewModel() { TodoList = TodoListRepository.Get().Todos });
         }
 
         [HttpPost]
@@ -89,15 +89,8 @@ namespace EventSourcingTodo.Controllers
             if (ModelState.IsValid)
             {
                 cmdHandler.Handle(new ChangeTodoDescription(postModel.TodoId, postModel.Description));
-                return RedirectToAction(nameof(Index));
             }
-            var viewModel = new IndexViewModel()
-            {
-                ChangeTodoDescriptionPostModel = postModel,
-                TodoListPartialViewModel = new TodoListPartialViewModel() { TodoList = TodoListRepository.Get().Todos },
-                EventsPartialViewModel = new EventsPartialViewModel() { Events = TodoListRepository.Events }
-            };
-            return View("Index", viewModel);
+            return PartialView("_TodoListPartial", new TodoListPartialViewModel() { TodoList = TodoListRepository.Get().Todos });
         }
 
         public IActionResult About()
