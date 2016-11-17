@@ -11,8 +11,8 @@ function todoListReplacingAjaxSubmitOnDone(responseData) {
     $.validator.unobtrusive.parse("#todoListAjaxTarget");
 }
 
-function addToDoFormSubmitOnDone(responseData) {
-    $("#addTodoForm").trigger("reset.unobtrusiveValidation");
+function addToDoFormSubmitOnDone(responseData, form) {
+    $(form).trigger("reset.unobtrusiveValidation");
     todoListReplacingAjaxSubmitOnDone(responseData);
 }
 

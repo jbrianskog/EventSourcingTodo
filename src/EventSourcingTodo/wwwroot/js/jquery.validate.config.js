@@ -17,8 +17,13 @@ function AjaxJQValSubmitHandler(form) {
         requestData = $form.serialize(),
         done = window[form.getAttribute("data-estd-AjaxJQValSubmitOnDone")];
 
+    // close over the submitting form so the 'done' handler can can access it
+    function doneClosure(responseData) {
+        done(responseData, form);
+    }
+
     $.post(url, requestData)
-        .done(done);
+        .done(doneClosure);
 }
 
 $.validator.setDefaults({
