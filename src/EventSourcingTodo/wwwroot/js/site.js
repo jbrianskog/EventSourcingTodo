@@ -11,6 +11,11 @@ function todoListReplacingAjaxSubmitOnDone(responseData) {
     $.validator.unobtrusive.parse("#todoListAjaxTarget");
 }
 
+function addToDoFormSubmitOnDone(responseData) {
+    $("#addTodoForm").trigger("reset.unobtrusiveValidation");
+    todoListReplacingAjaxSubmitOnDone(responseData);
+}
+
 $(function () {
     jsViewBag.csrfToken = $("input[name=__RequestVerificationToken]").first().val();
 
