@@ -30,6 +30,16 @@ $(function () {
             .done(todoListReplacingAjaxSubmitOnDone);
     });
     // Delegated event handler
+    $("#todoListAjaxTarget").on("click", ".uncompleteTodoBtn", function () {
+        var url = jsViewBag.urlUncompleteTodo,
+            requestData = {
+                TodoId: this.getAttribute("data-estd-todoid"),
+                __RequestVerificationToken: jsViewBag.csrfToken
+            }
+        $.post(url, requestData)
+            .done(todoListReplacingAjaxSubmitOnDone);
+    });
+    // Delegated event handler
     $("#todoListAjaxTarget").on("click", ".moveTodoUpBtn", function () {
         var url = jsViewBag.urlChangeTodoPosition,
             requestData = {
