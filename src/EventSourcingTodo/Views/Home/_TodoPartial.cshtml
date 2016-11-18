@@ -1,12 +1,8 @@
 ﻿@model EventSourcingTodo.Domain.Todo
-<div class="list-group-item renameTodoPanelWrapper @if(Model.IsCompleted) { <text>list-group-item-success</text> }" data-estd-todoid="@Model.Id">
+<div class="list-group-item renameTodoPanelWrapper @if (Model.IsCompleted) { <text>list-group-item-success</text> }" data-estd-todoid="@Model.Id">
     <div class="row renameTodoPanelToggleTarget">
         <div class="col-sm-6">
-            @Model.Description
-            @if (Model.IsCompleted)
-            {
-                <br /><small>Completed on @Model.CompletionTime.ToString("r")</small>
-            }
+            @{Html.RenderPartial("_TodoDescriptionPartial", Model); }
         </div>
         <div class="col-sm-6">
             <div class="btn-group btn-group-justified" role="group">

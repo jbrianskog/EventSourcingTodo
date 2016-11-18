@@ -1,0 +1,6 @@
+﻿@model EventSourcingTodo.Domain.Todo
+@Model.Description
+@if (Model.IsCompleted)
+            {
+    <br /><small>Completed on @Model.CompletionTime.ToString("r")</small>
+}
