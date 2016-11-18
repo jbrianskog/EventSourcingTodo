@@ -23,7 +23,7 @@ $(function () {
     $("#todoListAjaxTarget").on("click", ".completeTodoBtn", function () {
         var url = jsViewBag.urlCompleteTodo,
             requestData = {
-                TodoId: this.getAttribute("data-estd-todoid"),
+                TodoId: this.getAttribute("data-estd-todo-id"),
                 __RequestVerificationToken: jsViewBag.csrfToken
             }
         $.post(url, requestData)
@@ -33,7 +33,7 @@ $(function () {
     $("#todoListAjaxTarget").on("click", ".uncompleteTodoBtn", function () {
         var url = jsViewBag.urlUncompleteTodo,
             requestData = {
-                TodoId: this.getAttribute("data-estd-todoid"),
+                TodoId: this.getAttribute("data-estd-todo-id"),
                 __RequestVerificationToken: jsViewBag.csrfToken
             }
         $.post(url, requestData)
@@ -43,7 +43,7 @@ $(function () {
     $("#todoListAjaxTarget").on("click", ".moveTodoUpBtn", function () {
         var url = jsViewBag.urlChangeTodoPosition,
             requestData = {
-                TodoId: this.getAttribute("data-estd-todoid"),
+                TodoId: this.getAttribute("data-estd-todo-id"),
                 Offset: "-1",
                 __RequestVerificationToken: jsViewBag.csrfToken
             }
@@ -54,7 +54,7 @@ $(function () {
     $("#todoListAjaxTarget").on("click", ".moveTodoDownBtn", function () {
         var url = jsViewBag.urlChangeTodoPosition,
             requestData = {
-                TodoId: this.getAttribute("data-estd-todoid"),
+                TodoId: this.getAttribute("data-estd-todo-id"),
                 Offset: "1",
                 __RequestVerificationToken: jsViewBag.csrfToken
             }
@@ -65,7 +65,7 @@ $(function () {
     $("#todoListAjaxTarget").on("click", ".deleteTodoBtn", function () {
         var url = jsViewBag.urlRemoveTodo,
             requestData = {
-                TodoId: this.getAttribute("data-estd-todoid"),
+                TodoId: this.getAttribute("data-estd-todo-id"),
                 __RequestVerificationToken: jsViewBag.csrfToken
             }
         $.post(url, requestData)
