@@ -71,16 +71,34 @@ $(function () {
         $.post(url, requestData)
             .done(todoListReplacingAjaxSubmitOnDone);
     });
+
+    // Delegated event handler
+    $("#todoListAjaxTarget").on("click", ".todoActionsBtn", function () {
+        $panelDefault = $(this).closest(".todoPanelDefault");
+        $actionsPanel = $panelDefault.next();
+        $bothPanels = $panelDefault.add($actionsPanel);
+        $bothPanels.toggle();
+
+        $(document).on("click.todoActionsPanelClose", function (event) {
+            if (!$.contains($actionsPanel.find(".todoActionsPanelBtnGroup")[0], event.target)) {
+                $bothPanels.toggle();
+            }
+            $(document).off("click.todoActionsPanelClose");
+        });
+        return false;
+    });
     // Delegated event handler
     $("#todoListAjaxTarget").on("click", ".renameTodoBtn", function () {
-        var $wrapper = $(this).closest(".renameTodoPanelWrapper");
-        $wrapper.children(".renameTodoPanelToggleTarget").toggle();
-        $wrapper.find(".renameTodoBtnClickFocusTarget").first().focus();
+        var $actionsPanel = $(this).closest(".todoActionsPanel");
+        var $renamePanel = $actionsPanel.next();
+        $actionsPanel.add($renamePanel).toggle();
+        $renamePanel.find(".renameTodoBtnClickFocusTarget").first().focus();
     });
     // Delegated event handler
     $("#todoListAjaxTarget").on("blur", ".renameTodoForm", function (event) {
         if (!(event.relatedTarget && $.contains(this, event.relatedTarget))) {
-            $(this).closest(".renameTodoPanelWrapper").children(".renameTodoPanelToggleTarget").toggle()
+            var $renamePanel = $(this).closest(".todoRenamePanel");
+            $renamePanel.prev().prev().add($renamePanel).toggle();
         }
     });
 });
