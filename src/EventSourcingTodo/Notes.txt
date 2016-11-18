@@ -28,3 +28,11 @@ be modeled as aggregates. (or what aggregate boundaries should be)
 UX: Make the completed items appears as an immutable list. i.e. a log of the order and time at which things were completed.
 Maybe the completed list will be above the in-progress items. When you open the todo list you will be advanced to the in-progress items but
 it will be clear that you can scroll up to the completed items. When you mark an item completed it will animate to the bottom of the completed items list.
+
+Looks like there's a bug in the form TagHelper. When using a taghelper form in a partial view and rendering it multiple times
+on a parent partial view (passing in different models, say from a list of models inside the parent view's model)
+the forms' inputs will populate correctly on initial page load. In my case, I'm Ajax submitting the individual forms
+but returning the parent partial view and replacing the whole list of forms. The response I get from the form submission
+(the partial view of the list of forms) has each form's form taghelper's input's populated with the properties of whatever
+form was last submitted, not the model properties that were passed to the form partial.
+Using e.g @Model.[property] anywhere in the form partial gets the correct prop but the taghelpers don't.
