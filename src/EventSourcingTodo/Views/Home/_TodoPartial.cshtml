@@ -1,10 +1,10 @@
 ﻿@model EventSourcingTodo.Domain.Todo
 <a class="list-group-item @if (Model.IsCompleted) { <text>list-group-item-success uncompleteTodoBtn</text> } else { <text>completeTodoBtn</text> } todoPanelDefault" data-estd-todo-id="@Model.Id" tabindex="0">
     <div class="row">
-        <div class="col-sm-10">
+        <div class="col-sm-10 col-lg-11">
             @{Html.RenderPartial("_TodoDescriptionPartial", Model); }
         </div>
-        <div class="col-sm-2">
+        <div class="col-sm-2 col-lg-1">
             <button type="button" class="btn btn-link pull-right todoActionsBtn" aria-label="Actions">
                 <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
             </button>
@@ -13,10 +13,10 @@
 </a>
 <div class="list-group-item @if (Model.IsCompleted) { <text>list-group-item-success</text> } todoActionsPanel" style="display: none">
     <div class="row">
-        <div class="col-sm-8">
+        <div class="col-sm-7 col-md-8 col-lg-9">
             @{Html.RenderPartial("_TodoDescriptionPartial", Model); }
         </div>
-        <div class="col-sm-4">
+        <div class="col-md-5 col-md-4 col-lg-3">
             <div class="btn-group todoActionsPanelBtnGroup pull-right" role="group">
                 <button type="button" class="btn btn-link deleteTodoBtn" aria-label="Delete" data-estd-todo-id="@Model.Id">
                     <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
