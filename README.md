@@ -12,3 +12,4 @@ Open the solution in Visual Studio 2015. No db is required.
 - Replace Javascript with Typescript
 - CQRS backend
 - EventStore
+- Static site. (No backend)
