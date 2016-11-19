@@ -9,7 +9,7 @@ namespace EventSourcingTodo.Domain
     {
         // Global event stream for single global TodoList. Replace with something like Event Store.
         private static List<Event> events = new List<Event>();
-        public static IEnumerable<Event> Events { get { return events; } }
+        public static IList<Event> Events { get { return events; } }
 
         public static TodoList Get()
         {

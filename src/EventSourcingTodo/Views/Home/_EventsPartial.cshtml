@@ -6,12 +6,12 @@
 }
 else
 {
-    <pre><small>@foreach (var e in Model.Events)
+    <pre><small>@for (int i = Model.Events.Count - 1; i >= 0; i--)
     {
-        var sb = new System.Text.StringBuilder(Newtonsoft.Json.JsonConvert.SerializeObject(e, Newtonsoft.Json.Formatting.Indented));
+        var sb = new System.Text.StringBuilder(Newtonsoft.Json.JsonConvert.SerializeObject(Model.Events[i], Newtonsoft.Json.Formatting.Indented));
         sb.Remove(sb.Length - 1, 1);
         sb.Remove(0, 1);
-        sb.Insert(0, e.GetType().Name);
+        sb.Insert(0, Model.Events[i].GetType().Name);
         @sb.ToString()
     }</small></pre>
 }

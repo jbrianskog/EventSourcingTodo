@@ -8,6 +8,6 @@ namespace EventSourcingTodo.Models
 {
     public class EventsPartialViewModel
     {
-        public IEnumerable<Event> Events { get; set; }
+        public IList<Event> Events { get; set; }
     }
 }

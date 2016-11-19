@@ -17,7 +17,7 @@ function AjaxJQValSubmitHandler(form) {
         requestData = $form.serialize(),
         done = window[form.getAttribute("data-estd-ajax-jqval-submit-on-done")];
 
-    // close over the submitting form so the 'done' handler can can access it
+    // close over the submitting form so the 'done' handler can access it
     function doneClosure(responseData) {
         done(responseData, form);
     }
