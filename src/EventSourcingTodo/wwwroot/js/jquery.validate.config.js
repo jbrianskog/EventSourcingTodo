@@ -26,6 +26,35 @@ function AjaxJQValSubmitHandler(form) {
         .done(doneClosure);
 }
 
+var origDefaultHighlight = $.validator.defaults.highlight;
+var origDefaultUnhighlight = $.validator.defaults.unhighlight;
+
+function highlightFormGroupValidityClasses(element) {
+    $(element).closest(".form-group").find("[data-estd-form-group-valid-class]").addBack().each(function () {
+        $(this).removeClass(this.getAttribute("data-estd-form-group-valid-class"))
+    });
+    $(element).closest(".form-group").find("[data-estd-form-group-invalid-class]").addBack().each(function () {
+        $(this).addClass(this.getAttribute("data-estd-form-group-invalid-class"))
+    });
+}
+
+function unhighlightFormGroupValidityClasses(element) {
+    $(element).closest(".form-group").find("[data-estd-form-group-invalid-class]").addBack().each(function () {
+        $(this).removeClass(this.getAttribute("data-estd-form-group-invalid-class"))
+    });
+    $(element).closest(".form-group").find("[data-estd-form-group-valid-class]").addBack().each(function () {
+        $(this).addClass(this.getAttribute("data-estd-form-group-valid-class"))
+    });
+}
+
 $.validator.setDefaults({
+    highlight : function (element, errorClass, validClass) {
+        origDefaultHighlight(element, errorClass, validClass);
+        highlightFormGroupValidityClasses(element);
+    },
+    unhighlight : function (element, errorClass, validClass) {
+        origDefaultUnhighlight(element, errorClass, validClass);
+        unhighlightFormGroupValidityClasses(element);
+    },
     submitHandler: AjaxJQValSubmitHandler
 });
