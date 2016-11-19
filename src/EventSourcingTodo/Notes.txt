@@ -37,3 +37,6 @@ but returning the parent partial view and replacing the whole list of forms. The
 (the partial view of the list of forms) has each form's form taghelper's input's populated with the properties of whatever
 form was last submitted, not the model properties that were passed to the form partial.
 Using e.g @Model.[property] anywhere in the form partial gets the correct prop but the taghelpers don't.
+
+Consider generating unique ids for the elements in the todo list (e.g. name + incrementing ints). This would allow the js
+event handlers to address other elements by id instead of using jquery tree traversal
