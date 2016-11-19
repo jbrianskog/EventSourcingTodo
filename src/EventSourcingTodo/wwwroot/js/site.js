@@ -16,39 +16,40 @@ function addToDoFormSubmitOnDone(responseData, form) {
     todoListReplacingAjaxSubmitOnDone(responseData);
 }
 
+function completeTodoBtnHandler(e, url) {
+    // only handle "enter" presses
+    if (e.type == "keypress" && e.which != 13) {
+        return;
+    };
+    // short-circuit if this event has bubbled up from the todoActionsBtn (which is inside (un)complete todo buttons)
+    var todoActionsBtn = $(e.currentTarget).find(".todoActionsBtn")[0];
+    if (todoActionsBtn === e.target || $.contains(todoActionsBtn, e.target)) {
+        return;
+    };
+    var requestData = {
+        TodoId: e.currentTarget.getAttribute("data-estd-todo-id"),
+        __RequestVerificationToken: jsViewBag.csrfToken
+    }
+    $.post(url, requestData)
+        .done(todoListReplacingAjaxSubmitOnDone);
+}
+
 $(function () {
     jsViewBag.csrfToken = $("input[name=__RequestVerificationToken]").first().val();
 
-    // Delegated event handler
-    $("#todoListAjaxTarget").on("click", ".completeTodoBtn", function (e) {
-        var todoActionsBtn = $(this).find(".todoActionsBtn")[0];
-        // short-circuit if this event has bubbled up from the todoActionsBtn (which is inside (un)complete todo buttons)
-        if (todoActionsBtn === e.target || $.contains(todoActionsBtn, e.target)) {
-            return;
-        };
-        var url = jsViewBag.urlCompleteTodo,
-            requestData = {
-                TodoId: this.getAttribute("data-estd-todo-id"),
-                __RequestVerificationToken: jsViewBag.csrfToken
-            }
-        $.post(url, requestData)
-            .done(todoListReplacingAjaxSubmitOnDone);
+    // Need to handle keypress here because the completeTodoBtn is an <a> without an href,
+    // so tabbing to it and pressing enter doesn't trigger a click event like it would with a <button>.
+    // I want completeTodoBtn to act like a <button>, but it has another <button> inside of it (todoActionsBtn),
+    // so browsers and Bootstrap styling wouldn't work if it was a <button> (HTML spec says no interactive content
+    // inside interactive content). By using an <a> with no href I get the a.list-group-item Bootstrap styling.
+    $("#todoListAjaxTarget").on("click keypress", ".completeTodoBtn", function (e) {
+        completeTodoBtnHandler(e, jsViewBag.urlCompleteTodo);
     });
     // Delegated event handler
-    $("#todoListAjaxTarget").on("click", ".uncompleteTodoBtn", function (e) {
-        var todoActionsBtn = $(this).find(".todoActionsBtn")[0];
-        // short-circuit if this event has bubbled up from the todoActionsBtn (which is inside (un)complete todo buttons)
-        if (todoActionsBtn === e.target || $.contains(todoActionsBtn, e.target)) {
-            return;
-        };
-        var url = jsViewBag.urlUncompleteTodo,
-            requestData = {
-            TodoId: this.getAttribute("data-estd-todo-id"),
-            __RequestVerificationToken: jsViewBag.csrfToken
-        }
-        $.post(url, requestData)
-            .done(todoListReplacingAjaxSubmitOnDone);
+    $("#todoListAjaxTarget").on("click keypress", ".uncompleteTodoBtn", function (e) {
+        completeTodoBtnHandler(e, jsViewBag.urlUncompleteTodo);
     });
+
     // Delegated event handler
     $("#todoListAjaxTarget").on("click", ".moveTodoUpBtn", function () {
         var url = jsViewBag.urlChangeTodoPosition,
