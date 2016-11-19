@@ -16,10 +16,19 @@ namespace EventSourcingTodo.Controllers
         {
             var viewModel = new IndexViewModel()
             {
-                TodoListPartialViewModel = new TodoListPartialViewModel() { TodoList = TodoListRepository.Get().Todos },
+                TodoListPartialViewModel = todoListPartialViewModel(),
                 EventsPartialViewModel = new EventsPartialViewModel() { Events = TodoListRepository.Events }
             };
             return View(viewModel);
+        }
+
+        private TodoListPartialViewModel todoListPartialViewModel()
+        {
+            return new TodoListPartialViewModel()
+            {
+                TodoList = TodoListRepository.Get().Todos.Where(x => !x.IsCompleted),
+                CompletedTodoList = TodoListRepository.Get().Todos.Where(x => x.IsCompleted).Reverse()
+            };
         }
 
         public IActionResult Events()
@@ -35,7 +44,7 @@ namespace EventSourcingTodo.Controllers
             {
                 cmdHandler.Handle(new AddTodo(Guid.NewGuid(), addTodoPostModel.Description));
             }
-            return PartialView("_TodoListPartial", new TodoListPartialViewModel() { TodoList = TodoListRepository.Get().Todos });
+            return PartialView("_TodoListPartial", todoListPartialViewModel());
         }
         
         [HttpPost]
@@ -46,7 +55,7 @@ namespace EventSourcingTodo.Controllers
             {
                 cmdHandler.Handle(new RemoveTodo(postModel.TodoId));
             }
-            return PartialView("_TodoListPartial", new TodoListPartialViewModel() { TodoList = TodoListRepository.Get().Todos });
+            return PartialView("_TodoListPartial", todoListPartialViewModel());
         }
 
         [HttpPost]
@@ -57,7 +66,7 @@ namespace EventSourcingTodo.Controllers
             {
                 cmdHandler.Handle(new CompleteTodo(postModel.TodoId, DateTimeOffset.UtcNow));
             }
-            return PartialView("_TodoListPartial", new TodoListPartialViewModel() { TodoList = TodoListRepository.Get().Todos });
+            return PartialView("_TodoListPartial", todoListPartialViewModel());
         }
 
         [HttpPost]
@@ -68,7 +77,7 @@ namespace EventSourcingTodo.Controllers
             {
                 cmdHandler.Handle(new UncompleteTodo(postModel.TodoId));
             }
-            return PartialView("_TodoListPartial", new TodoListPartialViewModel() { TodoList = TodoListRepository.Get().Todos });
+            return PartialView("_TodoListPartial", todoListPartialViewModel());
         }
 
         [HttpPost]
@@ -79,7 +88,7 @@ namespace EventSourcingTodo.Controllers
             {
                 cmdHandler.Handle(new ChangeTodoPosition(postModel.TodoId, postModel.Offset));
             }
-            return PartialView("_TodoListPartial", new TodoListPartialViewModel() { TodoList = TodoListRepository.Get().Todos });
+            return PartialView("_TodoListPartial", todoListPartialViewModel());
         }
 
         [HttpPost]
@@ -90,7 +99,7 @@ namespace EventSourcingTodo.Controllers
             {
                 cmdHandler.Handle(new ChangeTodoDescription(postModel.TodoId, postModel.Description));
             }
-            return PartialView("_TodoListPartial", new TodoListPartialViewModel() { TodoList = TodoListRepository.Get().Todos });
+            return PartialView("_TodoListPartial", todoListPartialViewModel());
         }
 
         public IActionResult About()

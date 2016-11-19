@@ -9,5 +9,6 @@ namespace EventSourcingTodo.Models
     public class TodoListPartialViewModel
     {
         public IEnumerable<Todo> TodoList { get; set; }
+        public IEnumerable<Todo> CompletedTodoList { get; set; }
     }
 }

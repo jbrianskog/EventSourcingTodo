@@ -1,2 +1,3 @@
 ﻿@model TodoListPartialViewModel
 <div class="list-group">@foreach (var todo in Model.TodoList) { Html.RenderPartial("_TodoPartial", todo); }</div>
+<div class="list-group">@foreach (var todo in Model.CompletedTodoList) { Html.RenderPartial("_TodoPartial", todo); }</div>
