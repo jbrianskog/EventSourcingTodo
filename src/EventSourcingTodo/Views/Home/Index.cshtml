@@ -4,19 +4,17 @@
 }
 <div class="row">
     <div class="col-sm-8">
-        <form asp-controller="Home" asp-action="AddTodo" method="post" role="form" id="addTodoForm" data-estd-ajax-jqval-submit-on-done="addToDoFormSubmitOnDone">
-            <div class="form-group" data-estd-form-group-invalid-class="has-error">
-                <label asp-for="AddTodoPostModel.Description" class="sr-only"></label>
-                <div class="input-group">
-                    <input asp-for="AddTodoPostModel.Description" class="form-control" placeholder="What do you need to do?" autofocus />
-                    <span class="input-group-btn">
-                        <button type="submit" class="btn btn-success" data-estd-form-group-valid-class="btn-success" data-estd-form-group-invalid-class="btn-danger" aria-label="Add To-do">
-                            <span class="glyphicon glyphicon-plus" data-estd-form-group-valid-class="glyphicon-plus" data-estd-form-group-invalid-class="glyphicon-ban-circle" aria-hidden="true"></span>
-                        </button>
-                    </span>
-                </div>
-                <span asp-validation-for="AddTodoPostModel.Description" class="help-block"></span>
+        <form asp-controller="Home" asp-action="AddTodo" method="post" role="form" id="addTodoForm" data-estd-ajax-jqval-submit-on-done="addToDoFormSubmitOnDone" data-estd-form-group-invalid-class="has-error">
+            <label asp-for="AddTodoPostModel.Description" class="sr-only"></label>
+            <div class="input-group">
+                <input asp-for="AddTodoPostModel.Description" class="form-control" placeholder="What do you need to do?" autofocus />
+                <span class="input-group-btn">
+                    <button type="submit" class="btn btn-success" data-estd-form-group-valid-class="btn-success" data-estd-form-group-invalid-class="btn-danger" aria-label="Add To-do">
+                        <span class="glyphicon glyphicon-plus" data-estd-form-group-valid-class="glyphicon-plus" data-estd-form-group-invalid-class="glyphicon-ban-circle" aria-hidden="true"></span>
+                    </button>
+                </span>
             </div>
+            <span asp-validation-for="AddTodoPostModel.Description" class="help-block"></span>
         </form>
         <br />
         <div id="todoListAjaxTarget">

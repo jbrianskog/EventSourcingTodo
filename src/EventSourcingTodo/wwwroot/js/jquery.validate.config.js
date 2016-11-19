@@ -30,19 +30,19 @@ var origDefaultHighlight = $.validator.defaults.highlight;
 var origDefaultUnhighlight = $.validator.defaults.unhighlight;
 
 function highlightFormGroupValidityClasses(element) {
-    $(element).closest(".form-group").find("[data-estd-form-group-valid-class]").addBack().each(function () {
+    $(element).closest(".form-group, form").find("[data-estd-form-group-valid-class]").addBack().each(function () {
         $(this).removeClass(this.getAttribute("data-estd-form-group-valid-class"))
     });
-    $(element).closest(".form-group").find("[data-estd-form-group-invalid-class]").addBack().each(function () {
+    $(element).closest(".form-group, form").find("[data-estd-form-group-invalid-class]").addBack().each(function () {
         $(this).addClass(this.getAttribute("data-estd-form-group-invalid-class"))
     });
 }
 
 function unhighlightFormGroupValidityClasses(element) {
-    $(element).closest(".form-group").find("[data-estd-form-group-invalid-class]").addBack().each(function () {
+    $(element).closest(".form-group, form").find("[data-estd-form-group-invalid-class]").addBack().each(function () {
         $(this).removeClass(this.getAttribute("data-estd-form-group-invalid-class"))
     });
-    $(element).closest(".form-group").find("[data-estd-form-group-valid-class]").addBack().each(function () {
+    $(element).closest(".form-group, form").find("[data-estd-form-group-valid-class]").addBack().each(function () {
         $(this).addClass(this.getAttribute("data-estd-form-group-valid-class"))
     });
 }
