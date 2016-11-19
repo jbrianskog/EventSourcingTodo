@@ -74,9 +74,9 @@ $(function () {
 
     // Delegated event handler
     $("#todoListAjaxTarget").on("click", ".todoActionsBtn", function () {
-        $panelDefault = $(this).closest(".todoPanelDefault");
-        $actionsPanel = $panelDefault.next();
-        $bothPanels = $panelDefault.add($actionsPanel);
+        var $panelDefault = $(this).closest(".todoPanelDefault"),
+            $actionsPanel = $panelDefault.next(),
+            $bothPanels = $panelDefault.add($actionsPanel);
         $bothPanels.toggle();
 
         $(document).on("click.todoActionsPanelClose", function (event) {
