@@ -13,10 +13,10 @@
 </a>
 <div class="list-group-item @if (Model.IsCompleted) { <text>list-group-item-success</text> } todoActionsPanel" style="display: none">
     <div class="row">
-        <div class="col-sm-7 col-md-8 col-lg-9">
+        <div class="col-sm-7 col-md-8">
             @{Html.RenderPartial("_TodoDescriptionPartial", Model); }
         </div>
-        <div class="col-md-5 col-md-4 col-lg-3">
+        <div class="col-md-5 col-md-4">
             <div class="btn-group todoActionsPanelBtnGroup pull-right" role="group">
                 <button type="button" class="btn btn-link deleteTodoBtn" aria-label="Delete" data-estd-todo-id="@Model.Id">
                     <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
