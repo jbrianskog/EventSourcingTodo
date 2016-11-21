@@ -18,18 +18,18 @@ function addToDoFormSubmitOnDone(responseData, form) {
 
 function completeTodoBtnHandler(e, url) {
     // only handle "enter" presses
-    if (e.type == "keypress" && e.which != 13) {
+    if (e.type === "keypress" && e.which !== 13) {
         return;
-    };
+    }
     // short-circuit if this event has bubbled up from the todoActionsBtn (which is inside (un)complete todo buttons)
     var todoActionsBtn = $(e.currentTarget).find(".todoActionsBtn")[0];
     if (todoActionsBtn === e.target || $.contains(todoActionsBtn, e.target)) {
         return;
-    };
+    }
     var requestData = {
         TodoId: e.currentTarget.getAttribute("data-estd-todo-id"),
         __RequestVerificationToken: jsViewBag.csrfToken
-    }
+    };
     $.post(url, requestData)
         .done(todoListReplacingAjaxSubmitOnDone);
 }
@@ -57,7 +57,7 @@ $(function () {
                 TodoId: this.getAttribute("data-estd-todo-id"),
                 Offset: "-1",
                 __RequestVerificationToken: jsViewBag.csrfToken
-            }
+            };
         $.post(url, requestData)
             .done(todoListReplacingAjaxSubmitOnDone);
     });
@@ -68,7 +68,7 @@ $(function () {
                 TodoId: this.getAttribute("data-estd-todo-id"),
                 Offset: "1",
                 __RequestVerificationToken: jsViewBag.csrfToken
-            }
+            };
         $.post(url, requestData)
             .done(todoListReplacingAjaxSubmitOnDone);
     });
@@ -78,7 +78,7 @@ $(function () {
             requestData = {
                 TodoId: this.getAttribute("data-estd-todo-id"),
                 __RequestVerificationToken: jsViewBag.csrfToken
-            }
+            };
         $.post(url, requestData)
             .done(todoListReplacingAjaxSubmitOnDone);
     });
@@ -97,7 +97,7 @@ $(function () {
             // short-circuit when handler is triggered by event that created it
             if (e1.originalEvent === e2.originalEvent) {
                 return;
-            };
+            }
             if (!$.contains(actionsBtnGroup, e2.target)) {
                 $bothPanels.toggle();
             }
