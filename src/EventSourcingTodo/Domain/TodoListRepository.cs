@@ -5,20 +5,42 @@ using System.Threading.Tasks;
 
 namespace EventSourcingTodo.Domain
 {
-    public class TodoListRepository
+    public interface ITodoListRepository
+    {
+        IList<Event> Events { get; }
+        TodoList Get();
+        void PostChanges(TodoList todoList);
+    }
+
+    public class TodoListRepository : ITodoListRepository
     {
         // Global event stream for single global TodoList. Replace with something like Event Store.
-        private static List<Event> events = new List<Event>();
-        public static IList<Event> Events { get { return events; } }
-
-        public static TodoList Get()
+        private List<Event> events = new List<Event>();
+        public IList<Event> Events
         {
-            return new TodoList(events);
+            get
+            {
+                lock (events)
+                {
+                    return events;
+                }
+            }
+        }
+
+        public TodoList Get()
+        {
+            lock (events)
+            {
+                return new TodoList(events);
+            }
         }
         
-        public static void PostChanges(TodoList todoList)
+        public void PostChanges(TodoList todoList)
         {
-            events.AddRange(todoList.UncommittedChanges);
+            lock (events)
+            {
+                events.AddRange(todoList.UncommittedChanges);
+            }
         }
 
     }

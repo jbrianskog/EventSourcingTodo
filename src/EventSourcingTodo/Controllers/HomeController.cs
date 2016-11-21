@@ -10,14 +10,21 @@ namespace EventSourcingTodo.Controllers
 {
     public class HomeController : Controller
     {
-        private static readonly CommandHandler cmdHandler = new CommandHandler();
+        private readonly ICommandHandler cmdHandler;
+        private readonly ITodoListRepository todoListRepo;
+
+        public HomeController(ICommandHandler commandHandler, ITodoListRepository TodoListRepository)
+        {
+            cmdHandler = commandHandler;
+            todoListRepo = TodoListRepository;
+        }
 
         public IActionResult Index()
         {
             var viewModel = new IndexViewModel()
             {
                 TodoListPartialViewModel = todoListPartialViewModel(),
-                EventsPartialViewModel = new EventsPartialViewModel() { Events = TodoListRepository.Events }
+                EventsPartialViewModel = new EventsPartialViewModel() { Events = todoListRepo.Events }
             };
             return View(viewModel);
         }
@@ -26,14 +33,14 @@ namespace EventSourcingTodo.Controllers
         {
             return new TodoListPartialViewModel()
             {
-                TodoList = TodoListRepository.Get().Todos.Where(x => !x.IsCompleted),
-                CompletedTodoList = TodoListRepository.Get().Todos.Where(x => x.IsCompleted).Reverse()
+                TodoList = todoListRepo.Get().Todos.Where(x => !x.IsCompleted),
+                CompletedTodoList = todoListRepo.Get().Todos.Where(x => x.IsCompleted).Reverse()
             };
         }
 
         public IActionResult Events()
         {
-            return PartialView("_EventsPartial", new EventsPartialViewModel() { Events = TodoListRepository.Events });
+            return PartialView("_EventsPartial", new EventsPartialViewModel() { Events = todoListRepo.Events });
         }
 
         [HttpPost]

@@ -5,48 +5,65 @@ using System.Threading.Tasks;
 
 namespace EventSourcingTodo.Domain
 {
-    public class CommandHandler
+    public interface ICommandHandler
     {
+        void Handle(AddTodo c);
+        void Handle(RemoveTodo c);
+        void Handle(CompleteTodo c);
+        void Handle(UncompleteTodo c);
+        void Handle(ChangeTodoPosition c);
+        void Handle(ChangeTodoDescription c);
+    }
+
+    public class CommandHandler : ICommandHandler
+    {
+        private readonly ITodoListRepository todoListRepo;
+
+        public CommandHandler(ITodoListRepository todoListRepository)
+        {
+            todoListRepo = todoListRepository;
+        }
+
         public void Handle(AddTodo c)
         {
-            var todoList = TodoListRepository.Get();
+            var todoList = todoListRepo.Get();
             todoList.Add(c.TodoId, c.Description);
-            TodoListRepository.PostChanges(todoList);
+            todoListRepo.PostChanges(todoList);
         }
 
         public void Handle(RemoveTodo c)
         {
-            var todoList = TodoListRepository.Get();
+            var todoList = todoListRepo.Get();
             todoList.Remove(c.TodoId);
-            TodoListRepository.PostChanges(todoList);
+            todoListRepo.PostChanges(todoList);
         }
 
         public void Handle(CompleteTodo c)
         {
-            var todoList = TodoListRepository.Get();
+            var todoList = todoListRepo.Get();
             todoList.Complete(c.TodoId, c.CompletionTime);
-            TodoListRepository.PostChanges(todoList);
+            todoListRepo.PostChanges(todoList);
         }
 
         public void Handle(UncompleteTodo c)
         {
-            var todoList = TodoListRepository.Get();
+            var todoList = todoListRepo.Get();
             todoList.Uncomplete(c.TodoId);
-            TodoListRepository.PostChanges(todoList);
+            todoListRepo.PostChanges(todoList);
         }
 
         public void Handle(ChangeTodoPosition c)
         {
-            var todoList = TodoListRepository.Get();
+            var todoList = todoListRepo.Get();
             todoList.ChangePosition(c.TodoId, c.Offset);
-            TodoListRepository.PostChanges(todoList);
+            todoListRepo.PostChanges(todoList);
         }
 
         public void Handle(ChangeTodoDescription c)
         {
-            var todoList = TodoListRepository.Get();
+            var todoList = todoListRepo.Get();
             todoList.ChangeDescription(c.TodoId, c.Description);
-            TodoListRepository.PostChanges(todoList);
+            todoListRepo.PostChanges(todoList);
         }
     }
 }
