@@ -13,3 +13,4 @@ Open the solution in Visual Studio 2015. No db is required.
 - CQRS backend
 - EventStore
 - Static site. (No backend)
+- Unit tests
