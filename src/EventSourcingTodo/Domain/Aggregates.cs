@@ -35,6 +35,10 @@ namespace EventSourcingTodo.Domain
         
         private List<Todo> todos = new List<Todo>();
         public IEnumerable<Todo> Todos { get { return todos; } }
+        public Todo GetTodo(Guid id)
+        {
+            return todos.FirstOrDefault(x => x.Id == id);
+        }
 
         public void Add(Guid todoId, string description)
         {
