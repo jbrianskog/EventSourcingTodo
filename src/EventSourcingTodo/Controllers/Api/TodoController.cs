@@ -17,7 +17,7 @@ namespace EventSourcingTodo.Controllers.Api
     {
         private readonly ITodoListRepository _todoListRepo;
 
-        public TodoController(ICommandHandler cmdHandler, ITodoListRepository todoListRepo)
+        public TodoController(ITodoListRepository todoListRepo)
         {
             _todoListRepo = todoListRepo;
         }
