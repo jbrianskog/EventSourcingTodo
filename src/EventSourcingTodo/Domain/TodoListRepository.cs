@@ -15,7 +15,7 @@ namespace EventSourcingTodo.Domain
     public class TodoListRepository : ITodoListRepository
     {
         // Global event stream for single global TodoList. Replace with something like Event Store.
-        private List<Event> _events = new List<Event>();
+        private static List<Event> _events = new List<Event>();
         public IList<Event> Events
         {
             get
