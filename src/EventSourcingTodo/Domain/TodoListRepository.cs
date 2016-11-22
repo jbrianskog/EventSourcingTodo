@@ -15,31 +15,31 @@ namespace EventSourcingTodo.Domain
     public class TodoListRepository : ITodoListRepository
     {
         // Global event stream for single global TodoList. Replace with something like Event Store.
-        private List<Event> events = new List<Event>();
+        private List<Event> _events = new List<Event>();
         public IList<Event> Events
         {
             get
             {
-                lock (events)
+                lock (_events)
                 {
-                    return events;
+                    return _events;
                 }
             }
         }
 
         public TodoList Get()
         {
-            lock (events)
+            lock (_events)
             {
-                return new TodoList(events);
+                return new TodoList(_events);
             }
         }
         
         public void PostChanges(TodoList todoList)
         {
-            lock (events)
+            lock (_events)
             {
-                events.AddRange(todoList.UncommittedChanges);
+                _events.AddRange(todoList.UncommittedChanges);
             }
         }
 

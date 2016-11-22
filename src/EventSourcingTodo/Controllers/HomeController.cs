@@ -10,13 +10,13 @@ namespace EventSourcingTodo.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ICommandHandler cmdHandler;
-        private readonly ITodoListRepository todoListRepo;
+        private readonly ICommandHandler _cmdHandler;
+        private readonly ITodoListRepository _todoListRepo;
 
-        public HomeController(ICommandHandler commandHandler, ITodoListRepository TodoListRepository)
+        public HomeController(ICommandHandler cmdHandler, ITodoListRepository todoListRepo)
         {
-            cmdHandler = commandHandler;
-            todoListRepo = TodoListRepository;
+            _cmdHandler = cmdHandler;
+            _todoListRepo = todoListRepo;
         }
 
         public IActionResult Index()
@@ -24,7 +24,7 @@ namespace EventSourcingTodo.Controllers
             var viewModel = new IndexViewModel()
             {
                 TodoListPartialViewModel = todoListPartialViewModel(),
-                EventsPartialViewModel = new EventsPartialViewModel() { Events = todoListRepo.Events }
+                EventsPartialViewModel = new EventsPartialViewModel() { Events = _todoListRepo.Events }
             };
             return View(viewModel);
         }
@@ -33,14 +33,14 @@ namespace EventSourcingTodo.Controllers
         {
             return new TodoListPartialViewModel()
             {
-                TodoList = todoListRepo.Get().Todos.Where(x => !x.IsCompleted),
-                CompletedTodoList = todoListRepo.Get().Todos.Where(x => x.IsCompleted).Reverse()
+                TodoList = _todoListRepo.Get().Todos.Where(x => !x.IsCompleted),
+                CompletedTodoList = _todoListRepo.Get().Todos.Where(x => x.IsCompleted).Reverse()
             };
         }
 
         public IActionResult Events()
         {
-            return PartialView("_EventsPartial", new EventsPartialViewModel() { Events = todoListRepo.Events });
+            return PartialView("_EventsPartial", new EventsPartialViewModel() { Events = _todoListRepo.Events });
         }
 
         [HttpPost]
@@ -49,7 +49,7 @@ namespace EventSourcingTodo.Controllers
         {
             if (ModelState.IsValid)
             {
-                cmdHandler.Handle(new AddTodo(Guid.NewGuid(), addTodoPostModel.Description));
+                _cmdHandler.Handle(new AddTodo(Guid.NewGuid(), addTodoPostModel.Description));
             }
             return PartialView("_TodoListPartial", todoListPartialViewModel());
         }
@@ -60,7 +60,7 @@ namespace EventSourcingTodo.Controllers
         {
             if (ModelState.IsValid)
             {
-                cmdHandler.Handle(new RemoveTodo(postModel.TodoId));
+                _cmdHandler.Handle(new RemoveTodo(postModel.TodoId));
             }
             return PartialView("_TodoListPartial", todoListPartialViewModel());
         }
@@ -71,7 +71,7 @@ namespace EventSourcingTodo.Controllers
         {
             if (ModelState.IsValid)
             {
-                cmdHandler.Handle(new CompleteTodo(postModel.TodoId, DateTimeOffset.UtcNow));
+                _cmdHandler.Handle(new CompleteTodo(postModel.TodoId, DateTimeOffset.UtcNow));
             }
             return PartialView("_TodoListPartial", todoListPartialViewModel());
         }
@@ -82,7 +82,7 @@ namespace EventSourcingTodo.Controllers
         {
             if (ModelState.IsValid)
             {
-                cmdHandler.Handle(new UncompleteTodo(postModel.TodoId));
+                _cmdHandler.Handle(new UncompleteTodo(postModel.TodoId));
             }
             return PartialView("_TodoListPartial", todoListPartialViewModel());
         }
@@ -93,7 +93,7 @@ namespace EventSourcingTodo.Controllers
         {
             if (ModelState.IsValid)
             {
-                cmdHandler.Handle(new ChangeTodoPosition(postModel.TodoId, postModel.Offset));
+                _cmdHandler.Handle(new ChangeTodoPosition(postModel.TodoId, postModel.Offset));
             }
             return PartialView("_TodoListPartial", todoListPartialViewModel());
         }
@@ -104,7 +104,7 @@ namespace EventSourcingTodo.Controllers
         {
             if (ModelState.IsValid)
             {
-                cmdHandler.Handle(new ChangeTodoDescription(postModel.TodoId, postModel.Description));
+                _cmdHandler.Handle(new ChangeTodoDescription(postModel.TodoId, postModel.Description));
             }
             return PartialView("_TodoListPartial", todoListPartialViewModel());
         }
