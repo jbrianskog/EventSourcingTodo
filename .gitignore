@@ -240,5 +240,3 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
-
-/src/EventSourcingTodo/wwwroot/lib
